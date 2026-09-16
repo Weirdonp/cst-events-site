@@ -1,4 +1,3 @@
-name: Site pipeline
 
 on: push
 
