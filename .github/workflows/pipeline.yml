@@ -1,10 +1,10 @@
+name: Site pipeline
 
 on: push
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Fetch the repository
         uses: actions/checkout@v4
@@ -19,24 +19,25 @@ jobs:
 
       - name: Run the tests
         run: pytest -q
-build:
-  needs: test
-  runs-on: ubuntu-latest
 
-  steps:
-    - name: Fetch the repository
-      uses: actions/checkout@v4
+  build:
+    needs: test
+    runs-on: ubuntu-latest
 
-    - name: Install Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.12"
+    steps:
+      - name: Fetch the repository
+        uses: actions/checkout@v4
 
-    - name: Generate the site
-      run: python build_site.py
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-    - name: Keep the generated site
-      uses: actions/upload-artifact@v4
-      with:
-        name: site
-        path: dist
+      - name: Generate the site
+        run: python build_site.py
+
+      - name: Keep the generated site
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: dist
